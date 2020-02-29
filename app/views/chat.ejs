@@ -114,8 +114,8 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			var socket = io('http://159.89.91.202');
-			//var socket = io('http://localhost');
+			//var socket = io('http://159.89.91.202');
+			var socket = io('http://localhost');
 
 			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
 
@@ -130,6 +130,17 @@
 				console.log(msg);
 				$('#apelido_atualizado_nos_clientes').val(1);
 			});
+
+			function enviarVoto(a,b) {
+				let msg = {
+						apelido: $('#apelido').val(),
+						sala: $('#sala').val(),
+						questao: a,
+						opcao: b
+					};
+				socket.emit('votoParaServidor',msg);	
+				console.log(msg);
+			}
 	
 
 			socket.on('msgParaCliente', function(data){
@@ -144,12 +155,12 @@
 
 			socket.on('questaoParaCliente', function(data){
 				var html = '';
-				html+= '<div class="pergunta">';
+				html+= '<div id="pergunta'+data.id+'"class="pergunta">';
 				html+= '<h4>'+data.pergunta+'</h4>';
-				html+= '<button class="btn btn-info btn-block">'+data.op1+'</button>';
-				html+= '<br><button class="btn btn-info btn-block">'+data.op2+'</button>';
-				html+= '<br><button class="btn btn-info btn-block">'+data.op3+'</button>';
-				html+= '<br><button class="btn btn-info btn-block">'+data.op4+'</button>';
+				html+= '<button id="op1" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+'</button>';
+				html+= '<br><button id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block">'+data.op2+'</button>';
+				html+= '<br><button id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block">'+data.op3+'</button>';
+				html+= '<br><button id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block">'+data.op4+'</button>';
 				html += '</div>';
 				$('#dialogos').append(html);
 				window.scrollTo(0,document.body.scrollHeight);

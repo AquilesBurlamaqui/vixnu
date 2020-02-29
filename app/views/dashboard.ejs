@@ -144,8 +144,8 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			var socket = io('http://159.89.91.202');
-			//var socket = io('http://localhost');
+			//var socket = io('http://159.89.91.202');
+			var socket = io('http://localhost');
 			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
 
 			$('#enviar_questao').click(function(){
