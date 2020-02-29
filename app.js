@@ -32,6 +32,21 @@ io.on('connection',function(socket){
 		
 	});
 
+	socket.on('questaoParaServidor', function(data){
+		//enviando questao para clientes
+		socket.broadcast.emit('questaoParaCliente',{
+			pergunta: data.pergunta, 
+			op1:data.op1,
+			op2:data.op2,
+			op3:data.op3,
+			op4:data.op4,
+		});
+
+		
+	});
+
+	
+
 	
 
 
