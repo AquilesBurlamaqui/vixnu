@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1"/><meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" media="(device-height: 568px)"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-itunes-app" content="app-id=1131203560"/><meta name="theme-color" content="#000000"/>
         <meta name="description" content="Vixnu Pool"/><meta name="keywords" content="education, platform, smart phone, tablet, mobile, social, inclusive, HTML5, classroom, engagement, play, game, fun, quiz, multi-player, pedagogy, learning model, learn, gamification."/>
-		<title>VixNU</title>
+		<title>VixNU Chat</title>
 		
 		<!-- JQUERY -->
 		<script src="js/jquery-2.2.1.js"></script>
@@ -52,7 +52,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">VixNU Chat</a>
+					<a class="navbar-brand" href="#">VixNU Chat </a>
 				</div>
 				
 				
@@ -91,7 +91,9 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 			<div class="container-fluid">
 				<div class="panel-body campo-mensagem">
-				
+						<div>
+							<label>user: <%=dadosForm.apelido%> room: <%=dadosForm.sala%></label></label>
+						</div>
 						<div class="col-md-12">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="Mensagem" id="mensagem">
@@ -119,7 +121,7 @@
 
 			$('#enviar_mensagem').click(function(){
 				let msg = {
-						apelido:$('#apelido').val(), 
+						apelido: $('#apelido').val(), 
 						mensagem: $('#mensagem').val(),
 						sala: $('#sala').val(),
 						apelido_atualizado_nos_clientes: $('#apelido_atualizado_nos_clientes').val()

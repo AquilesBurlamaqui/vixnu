@@ -44,7 +44,9 @@
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="panel-body campo-mensagem">
-				
+					    <div>
+							<label>admin: <%=dadosForm.apelido%> room: <%=dadosForm.sala%></label></label>
+						</div>
 						<div class="col-md-12">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="pergunta" id="pergunta" value="Qual o curso voce pretente seguir ?">
@@ -56,7 +58,7 @@
 								<input type="hidden" value="<%=dadosForm.sala%>" name="sala" id="sala"/>
 								<input type="hidden" value="0" id="apelido_atualizado_nos_clientes"/>
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" id="enviar_mensagem">Enviar</button>
+									<button class="btn btn-default" type="button" id="enviar_questao">Enviar</button>
 								</span>
 							</div>
 						</div>
@@ -88,6 +90,26 @@
         </div>
 
         <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+			
+			<div class="container-fluid">
+				<div class="panel-body campo-mensagem">
+						<div>
+							<label>admin: <%=dadosForm.apelido%> room: <%=dadosForm.sala%></label></label>
+						</div>
+						<div class="col-md-12">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Mensagem" id="mensagem">
+								<input type="hidden" value="<%=dadosForm.apelido%>" name="apelido" id="apelido"/>
+								<input type="hidden" value="<%=dadosForm.sala%>" name="sala" id="sala"/>
+								<input type="hidden" value="0" id="apelido_atualizado_nos_clientes"/>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" id="enviar_mensagem">Enviar</button>
+								</span>
+							</div>
+						</div>
+				
+				</div>
+			</div>
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1" id="btn_navbar_toggle">
@@ -123,7 +145,7 @@
 			//var socket = io('http://localhost');
 			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
 
-			$('#enviar_mensagem').click(function(){
+			$('#enviar_questao').click(function(){
 				socket.emit(
 					'questaoParaServidor',
 					{
@@ -139,6 +161,19 @@
 				);	
 				$('#apelido_atualizado_nos_clientes').val(1);
 			});
+
+			$('#enviar_mensagem').click(function(){
+				let msg = {
+						apelido: 'admin:'+$('#apelido').val(), 
+						mensagem: $('#mensagem').val(),
+						sala: $('#sala').val(),
+						apelido_atualizado_nos_clientes: $('#apelido_atualizado_nos_clientes').val()
+					};
+				socket.emit('msgParaServidor',msg);	
+				console.log(msg);
+				$('#apelido_atualizado_nos_clientes').val(1);
+			});
+	
 
 			socket.on('msgParaCliente', function(data){
 				var html = '';
