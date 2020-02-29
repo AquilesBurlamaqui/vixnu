@@ -40,9 +40,54 @@
 	</head>
 
 	<body>
-	
-	
+
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="panel-body campo-mensagem">
+				
+						<div class="col-md-12">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="pergunta" id="pergunta" value="Qual o curso voce pretente seguir ?">
+								<input type="text" class="form-control" placeholder="Opcao 1" id="op1" value="Eng. Computação">
+								<input type="text" class="form-control" placeholder="Opcao 2" id="op2" value="Outra Engenharia">
+								<input type="text" class="form-control" placeholder="Opcao 3" id="op3" value="Bacharelado em C&T">
+								<input type="text" class="form-control" placeholder="Opcao 4" id="op4" value="Não Sei">
+								<input type="hidden" value="<%=dadosForm.apelido%>" name="apelido" id="apelido"/>
+								<input type="hidden" value="<%=dadosForm.sala%>" name="sala" id="sala"/>
+								<input type="hidden" value="0" id="apelido_atualizado_nos_clientes"/>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" id="enviar_mensagem">Enviar</button>
+								</span>
+							</div>
+						</div>
+				
+				</div>
+			</div>
+		</nav>		
+	
+	
+		
+	
+		<div class="container" style="margin-top: 150px;">
+            <div class="row conversa" id="conversa">
+				<div class="col-md-1"></div>
+				<div class="col-md-10" id="dialogos">
+				</div>
+				<div class="col-md-1"></div>
+                
+            </div>
+			
+			<div class="row participantes" id="participantes" style="display:none">
+				<div class="col-md-1"></div>
+				<div class="col-md-10" id="pessoas">
+					
+				</div>
+				<div class="col-md-1"></div>
+                
+            </div>
+        </div>
+
+        <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1" id="btn_navbar_toggle">
@@ -67,48 +112,8 @@
 				</div>
 			</div>
 		</nav>
-	
-		<div class="container">
-            <div class="row conversa" id="conversa">
-				<div class="col-md-1"></div>
-				<div class="col-md-10" id="dialogos">
-				</div>
-				<div class="col-md-1"></div>
-                
-            </div>
-			
-			<div class="row participantes" id="participantes" style="display:none">
-				<div class="col-md-1"></div>
-				<div class="col-md-10" id="pessoas">
-					
-				</div>
-				<div class="col-md-1"></div>
-                
-            </div>
-        </div>
 		
-		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-			<div class="container">
-				<div class="panel-body campo-mensagem">
-				
-						<div class="col-md-12">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="pergunta" id="pergunta">
-								<input type="text" class="form-control" placeholder="Opcao 1" id="op1">
-								<input type="text" class="form-control" placeholder="Opcao 2" id="op2">
-								<input type="text" class="form-control" placeholder="Opcao 3" id="op3">
-								<input type="text" class="form-control" placeholder="Opcao 4" id="op4">
-								<input type="hidden" value="<%=dadosForm.apelido%>" name="apelido" id="apelido"/>
-								<input type="hidden" value="0" id="apelido_atualizado_nos_clientes"/>
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" id="enviar_mensagem">Enviar</button>
-								</span>
-							</div>
-						</div>
-				
-				</div>
-			</div>
-		</nav>		
+		
 		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
@@ -116,12 +121,14 @@
 		<script>
 			var socket = io('http://159.89.91.202');
 			//var socket = io('http://localhost');
+			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
 
 			$('#enviar_mensagem').click(function(){
 				socket.emit(
 					'questaoParaServidor',
 					{
 						apelido:$('#apelido').val(), 
+						sala:$('#sala').val(),
 						pergunta: $('#pergunta').val(),
 						op1: $('#op1').val(),
 						op2: $('#op2').val(),
@@ -131,6 +138,37 @@
 					}
 				);	
 				$('#apelido_atualizado_nos_clientes').val(1);
+			});
+
+			socket.on('msgParaCliente', function(data){
+				var html = '';
+				html+= '<div class="dialogo">';
+				html+= '<h4>'+data.apelido+'</h4>';
+				html+= '<p>'+data.mensagem+'</p>';
+				html += '</div>';
+				$('#dialogos').append(html);
+				window.scrollTo(0,document.body.scrollHeight);
+			});
+
+			socket.on('questaoParaCliente', function(data){
+				var html = '';
+				html+= '<div class="pergunta">';
+				html+= '<h4>'+data.pergunta+'</h4>';
+				html+= '<button class="btn btn-info btn-block">'+data.op1+'</button>';
+				html+= '<br><button class="btn btn-info btn-block">'+data.op2+'</button>';
+				html+= '<br><button class="btn btn-info btn-block">'+data.op3+'</button>';
+				html+= '<br><button class="btn btn-info btn-block">'+data.op4+'</button>';
+				html += '</div>';
+				$('#dialogos').append(html);
+				window.scrollTo(0,document.body.scrollHeight);
+			});
+
+			socket.on('participantesParaCliente', function(data){
+				var html = '';
+				html+= '<span class="participante">';
+				html+= data.apelido;
+				html += '</div>';
+				$('#participantes').append(html);
 			});
 
 		</script>

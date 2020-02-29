@@ -11,7 +11,7 @@ module.exports.iniciaDashBoard = function(application, req, res) {
 	}
 	application.get('io').emit(
 		'msgParaCliente', 
-		{apelido: dadosForm.apelido, mensagem:' acabou de entrar no chat'}
+		{apelido: dadosForm.apelido,sala:dadosForm.sala, mensagem:' acabou de entrar no chat'}
 	);
 
 	res.render('dashboard', {dadosForm:dadosForm});
