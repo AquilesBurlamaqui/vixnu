@@ -42,6 +42,40 @@ io.on('connection',function(socket){
 		if(data.opcao==4)
 			questoes[data.questao]._op4.vote();
 		questoes[data.questao].print();
+		let total = questoes[data.questao]._op1.votos+
+					 questoes[data.questao]._op2.votos+
+					 questoes[data.questao]._op3.votos+
+					 questoes[data.questao]._op4.votos;
+
+		socket.emit('jaVotei',{
+			javotei:true
+		});
+		socket.emit('votoParaCliente',{
+			p1: (questoes[data.questao]._op1.votos*100/total).toFixed(2),
+			p2: (questoes[data.questao]._op2.votos*100/total).toFixed(2),
+			p3: (questoes[data.questao]._op3.votos*100/total).toFixed(2),
+			p4: (questoes[data.questao]._op4.votos*100/total).toFixed(2),
+			pergunta: questoes[data.questao].pergunta, 
+			id:questoes[data.questao].id,
+			op1:questoes[data.questao]._op1.opcao,
+			op2:questoes[data.questao]._op2.opcao,
+			op3:questoes[data.questao]._op3.opcao,
+			op4:questoes[data.questao]._op4.opcao,
+			total:total
+		});
+		socket.to(data.sala).emit('votoParaCliente',{
+			p1: (questoes[data.questao]._op1.votos*100/total).toFixed(2),
+			p2: (questoes[data.questao]._op2.votos*100/total).toFixed(2),
+			p3: (questoes[data.questao]._op3.votos*100/total).toFixed(2),
+			p4: (questoes[data.questao]._op4.votos*100/total).toFixed(2),
+			pergunta: questoes[data.questao].pergunta, 
+			id:questoes[data.questao].id,
+			op1:questoes[data.questao]._op1.opcao,
+			op2:questoes[data.questao]._op2.opcao,
+			op3:questoes[data.questao]._op3.opcao,
+			op4:questoes[data.questao]._op4.opcao,
+			total:total
+		});
 	});
 
 
