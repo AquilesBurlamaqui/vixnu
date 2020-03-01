@@ -147,6 +147,8 @@
 			var socket = io('http://159.89.91.202');
 			//var socket = io('http://localhost');
 
+			var javotei = false;
+
 			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
 
 			$('#enviar_questao').click(function(){
@@ -166,6 +168,17 @@
 				$('#apelido_atualizado_nos_clientes').val(1);
 			});
 
+			function enviarVoto(a,b) {
+				let msg = {
+						apelido: $('#apelido').val(),
+						sala: $('#sala').val(),
+						questao: a,
+						opcao: b
+					};
+				socket.emit('votoParaServidor',msg);	
+				console.log(msg);
+			}
+
 			$('#enviar_mensagem').click(function(){
 				let msg = {
 						apelido: 'admin:'+$('#apelido').val(), 
@@ -176,6 +189,34 @@
 				socket.emit('msgParaServidor',msg);	
 				console.log(msg);
 				$('#apelido_atualizado_nos_clientes').val(1);
+			});
+
+			socket.on('votoParaCliente', function(data){
+				var html = '';
+				if(javotei) {
+					html+= '<div id="pergunta'+data.id+'"class="pergunta">';
+					html+= '<h4>'+data.pergunta+'</h4>';
+					html+= '<button disabled id="op1" style="width: '+data.p1+'%;" aria-valuenow="'+data.p1+'" aria-valuemin="0" aria-valuemax="100" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+' - '+data.p1+'%</button>';
+					html+= '<button disabled id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block" style="width: '+data.p2+'%;" aria-valuenow="'+data.p2+'" aria-valuemin="0" aria-valuemax="100">'+data.op2+' - '+data.p2+'%</button>';
+					html+= '<button disabled id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block" style="width: '+data.p3+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op3+' - '+data.p3+'%</button>';
+					html+= '<button disabled id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block" style="width: '+data.p4+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op4+' - '+data.p4+'%</button>';
+					html+= '<span> Votos:'+data.total+'</span>';
+					html+= '</div>';
+				} else {
+					html+= '<div id="pergunta'+data.id+'"class="pergunta">';
+					html+= '<h4>'+data.pergunta+'</h4>';
+					html+= '<button id="op1" style="width: '+data.p1+'%;" aria-valuenow="'+data.p1+'" aria-valuemin="0" aria-valuemax="100" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+' - '+data.p1+'%</button>';
+					html+= '<button id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block" style="width: '+data.p2+'%;" aria-valuenow="'+data.p2+'" aria-valuemin="0" aria-valuemax="100">'+data.op2+' - '+data.p2+'%</button>';
+					html+= '<button id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block" style="width: '+data.p3+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op3+' - '+data.p3+'%</button>';
+					html+= '<button id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block" style="width: '+data.p4+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op4+' - '+data.p4+'%</button>';
+					html+= '<span> Votos:'+data.total+'</span>';
+					html+= '</div>';
+				}
+				
+				
+				$('#pergunta'+data.id).html(html);
+				console.log(html);
+				window.scrollTo(0,document.body.scrollHeight);
 			});
 	
 
@@ -191,12 +232,12 @@
 
 			socket.on('questaoParaCliente', function(data){
 				var html = '';
-				html+= '<div class="pergunta">';
+				html+= '<div id="pergunta'+data.id+'"class="pergunta">';
 				html+= '<h4>'+data.pergunta+'</h4>';
-				html+= '<button class="btn btn-info btn-block">'+data.op1+'</button>';
-				html+= '<br><button class="btn btn-info btn-block">'+data.op2+'</button>';
-				html+= '<br><button class="btn btn-info btn-block">'+data.op3+'</button>';
-				html+= '<br><button class="btn btn-info btn-block">'+data.op4+'</button>';
+				html+= '<button id="op1" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+'</button>';
+				html+= '<button id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">'+data.op2+'</button>';
+				html+= '<button id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">'+data.op3+'</button>';
+				html+= '<button id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">'+data.op4+'</button>';
 				html += '</div>';
 				$('#dialogos').append(html);
 				window.scrollTo(0,document.body.scrollHeight);
