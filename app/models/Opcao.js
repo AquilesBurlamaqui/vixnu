@@ -3,6 +3,7 @@ class Opcao {
     constructor(opcao,v) {
       this._op = opcao;
       this._votos = 0;
+      this._usuarios = [];
     }
   
   	get opcao() {
@@ -11,7 +12,8 @@ class Opcao {
     get votos() {
         return this._votos;
     }  
-    vote() {
+    vote(usuario) {
+      this._usuarios.push(usuario);
     	this._votos++;
     }
 }

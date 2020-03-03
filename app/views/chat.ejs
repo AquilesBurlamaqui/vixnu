@@ -138,10 +138,10 @@
 						questao: a,
 						opcao: b
 					};
-				$("#"+a+"op1").prop( "disabled", true ); //Disable
-				$("#"+a+"op2").prop( "disabled", true ); //Disable
-				$("#"+a+"op3").prop( "disabled", true ); //Disable
-				$("#"+a+"op4").prop( "disabled", true ); //Disable
+				$("#"+a+"op1").prop( "disabled", true );
+				$("#"+a+"op2").prop( "disabled", true ); 
+				$("#"+a+"op3").prop( "disabled", true );
+				$("#"+a+"op4").prop( "disabled", true );
 				$("#"+a+"op"+b).css("background-color", "red");
 				socket.emit('votoParaServidor',msg);	
 				console.log(msg);
@@ -189,6 +189,13 @@
 				html += '</div>';
 				$('#dialogos').append(html);
 				window.scrollTo(0,document.body.scrollHeight);
+			});
+
+			socket.on('numClientes', function(data){
+				var html = '';
+				html+= 'Participantes ';
+				html+= data.clientes;
+				$('#exibe_participantes').html(html);
 			});
 
 			socket.on('participantesParaCliente', function(data){

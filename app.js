@@ -17,12 +17,25 @@ app.set('io',io);
 io.on('connection',function(socket){
 	console.log("usuário "+socket.id+" conectado ");
 	clientes++;
+
+	socket.emit('numClientes',{
+			clientes:clientes
+	});
+	socket.broadcast.emit('numClientes',{
+			clientes:clientes
+		});
     console.log("clientes: " + clientes);
 
 	
 	socket.on('disconnect', function(){
 		console.log("usuario "+socket.id+" desconectou!");
 		clientes--;
+		socket.emit('numClientes',{
+			clientes:clientes
+		});
+		socket.broadcast.emit('numClientes',{
+			clientes:clientes
+		});
     	console.log("clientes: " + clientes);
 	});
 
@@ -34,13 +47,13 @@ io.on('connection',function(socket){
 
 	socket.on('votoParaServidor', function(data){
 		if(data.opcao==1)
-			questoes[data.questao]._op1.vote();
+			questoes[data.questao]._op1.vote(data.apelido);
 		if(data.opcao==2)
-			questoes[data.questao]._op2.vote();
+			questoes[data.questao]._op2.vote(data.apelido);
 		if(data.opcao==3)
-			questoes[data.questao]._op3.vote();
+			questoes[data.questao]._op3.vote(data.apelido);
 		if(data.opcao==4)
-			questoes[data.questao]._op4.vote();
+			questoes[data.questao]._op4.vote(data.apelido);
 		questoes[data.questao].print();
 		let total = questoes[data.questao]._op1.votos+
 					 questoes[data.questao]._op2.votos+
@@ -61,6 +74,10 @@ io.on('connection',function(socket){
 			op2:questoes[data.questao]._op2.opcao,
 			op3:questoes[data.questao]._op3.opcao,
 			op4:questoes[data.questao]._op4.opcao,
+			users_op1:questoes[data.questao]._op1._usuarios,
+			users_op2:questoes[data.questao]._op2._usuarios,
+			users_op3:questoes[data.questao]._op3._usuarios,
+			users_op4:questoes[data.questao]._op4._usuarios,
 			total:total
 		});
 		socket.to(data.sala).emit('votoParaCliente',{
@@ -74,6 +91,10 @@ io.on('connection',function(socket){
 			op2:questoes[data.questao]._op2.opcao,
 			op3:questoes[data.questao]._op3.opcao,
 			op4:questoes[data.questao]._op4.opcao,
+			users_op1:questoes[data.questao]._op1._usuarios,
+			users_op2:questoes[data.questao]._op2._usuarios,
+			users_op3:questoes[data.questao]._op3._usuarios,
+			users_op4:questoes[data.questao]._op4._usuarios,
 			total:total
 		});
 	});

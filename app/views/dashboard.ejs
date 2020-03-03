@@ -113,7 +113,7 @@
 				
 				</div>
 			</div>
-			<div class="container">
+			<!--<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1" id="btn_navbar_toggle">
 						<span class="sr-only">Toggle navigation</span>
@@ -135,7 +135,7 @@
 						</li>
 					</ul>
 				</div>
-			</div>
+			</div>-->
 		</nav>
 		
 		
@@ -197,18 +197,26 @@
 					html+= '<div id="pergunta'+data.id+'"class="pergunta">';
 					html+= '<h4>'+data.pergunta+'</h4>';
 					html+= '<button disabled id="op1" style="width: '+data.p1+'%;" aria-valuenow="'+data.p1+'" aria-valuemin="0" aria-valuemax="100" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+' - '+data.p1+'%</button>';
+					html+= '<div id="user_op1">'+data.users_op1+'</div>';
 					html+= '<button disabled id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block" style="width: '+data.p2+'%;" aria-valuenow="'+data.p2+'" aria-valuemin="0" aria-valuemax="100">'+data.op2+' - '+data.p2+'%</button>';
+					html+= '<div id="user_op2">'+data.users_op2+'</div>';
 					html+= '<button disabled id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block" style="width: '+data.p3+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op3+' - '+data.p3+'%</button>';
+					html+= '<div id="user_op3">'+data.users_op3+'</div>';
 					html+= '<button disabled id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block" style="width: '+data.p4+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op4+' - '+data.p4+'%</button>';
+					html+= '<div id="user_op4">'+data.users_op4+'</div>';
 					html+= '<span> Votos:'+data.total+'</span>';
 					html+= '</div>';
 				} else {
 					html+= '<div id="pergunta'+data.id+'"class="pergunta">';
 					html+= '<h4>'+data.pergunta+'</h4>';
 					html+= '<button id="op1" style="width: '+data.p1+'%;" aria-valuenow="'+data.p1+'" aria-valuemin="0" aria-valuemax="100" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+' - '+data.p1+'%</button>';
+					html+= '<div id="user_op1">'+data.users_op1+'</div>';
 					html+= '<button id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block" style="width: '+data.p2+'%;" aria-valuenow="'+data.p2+'" aria-valuemin="0" aria-valuemax="100">'+data.op2+' - '+data.p2+'%</button>';
+					html+= '<div id="user_op2">'+data.users_op2+'</div>';
 					html+= '<button id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block" style="width: '+data.p3+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op3+' - '+data.p3+'%</button>';
+					html+= '<div id="user_op3">'+data.users_op3+'</div>';
 					html+= '<button id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block" style="width: '+data.p4+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op4+' - '+data.p4+'%</button>';
+					html+= '<div id="user_op4">'+data.users_op4+'</div>';
 					html+= '<span> Votos:'+data.total+'</span>';
 					html+= '</div>';
 				}
@@ -227,7 +235,7 @@
 				html+= '<p>'+data.mensagem+'</p>';
 				html += '</div>';
 				$('#dialogos').append(html);
-				window.scrollTo(0,document.body.scrollHeight);
+				window.scrollTo(0,document.body.scrollHeight-100);
 			});
 
 			socket.on('questaoParaCliente', function(data){
