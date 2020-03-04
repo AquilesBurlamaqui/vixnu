@@ -96,13 +96,13 @@
 						</div>
 						<div class="col-md-12">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Mensagem" id="mensagem">
+								<!--<input type="text" class="form-control" placeholder="Mensagem" id="mensagem">-->
 								<input type="hidden" value="<%=dadosForm.apelido%>" name="apelido" id="apelido"/>
 								<input type="hidden" value="<%=dadosForm.sala%>" name="sala" id="sala"/>
 								<input type="hidden" value="0" id="apelido_atualizado_nos_clientes"/>
-								<span class="input-group-btn">
+								<!--<span class="input-group-btn">
 									<button class="btn btn-default" type="button" id="enviar_mensagem">Enviar</button>
-								</span>
+								</span>-->
 							</div>
 						</div>
 				
@@ -119,7 +119,7 @@
 			
 			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
 
-			$('#enviar_mensagem').click(function(){
+			/*$('#enviar_mensagem').click(function(){
 				let msg = {
 						apelido: $('#apelido').val(), 
 						mensagem: $('#mensagem').val(),
@@ -129,7 +129,7 @@
 				socket.emit('msgParaServidor',msg);	
 				console.log(msg);
 				$('#apelido_atualizado_nos_clientes').val(1);
-			});
+			});*/
 
 			setInterval(ping, 1000);
 
