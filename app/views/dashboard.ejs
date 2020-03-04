@@ -13,6 +13,8 @@
 		
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		 
 	
 		<!-- estilo -->
 		<link href="css/style.css" rel="stylesheet">
@@ -113,6 +115,8 @@
 				
 				</div>
 			</div>
+
+
 			<!--<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1" id="btn_navbar_toggle">
@@ -140,7 +144,9 @@
 		
 		
 		
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
@@ -150,6 +156,7 @@
 			var javotei = false;
 
 			socket.emit('clienteEntrandoNaSala',{sala: $('#sala').val()});	
+			
 
 			$('#enviar_questao').click(function(){
 				socket.emit(
@@ -210,14 +217,17 @@
 					html+= '<div id="pergunta'+data.id+'"class="pergunta">';
 					html+= '<h4>'+data.pergunta+'</h4>';
 					html+= '<button id="op1" style="width: '+data.p1+'%;" aria-valuenow="'+data.p1+'" aria-valuemin="0" aria-valuemax="100" onclick="enviarVoto('+data.id+',1)" class="btn btn-info btn-block">'+data.op1+' - '+data.p1+'%</button>';
-					html+= '<div id="user_op1">'+data.users_op1+'</div>';
+					html+= '<div id="demo" class="collapse"><textarea rows="1" cols="40">'+data.users_op1+'</textarea></div>';
 					html+= '<button id="op2" onclick="enviarVoto('+data.id+',2)" class="btn btn-info btn-block" style="width: '+data.p2+'%;" aria-valuenow="'+data.p2+'" aria-valuemin="0" aria-valuemax="100">'+data.op2+' - '+data.p2+'%</button>';
-					html+= '<div id="user_op2">'+data.users_op2+'</div>';
+					html+= '<div id="demo" class="collapse"><textarea rows="1" cols="40">'+data.users_op2+'</textarea></div>';
+
 					html+= '<button id="op3" onclick="enviarVoto('+data.id+',3)"  class="btn btn-info btn-block" style="width: '+data.p3+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op3+' - '+data.p3+'%</button>';
-					html+= '<div id="user_op3">'+data.users_op3+'</div>';
+
+					html+= '<div id="demo" class="collapse"><textarea rows="1" cols="40">'+data.users_op3+'</textarea></div>';
 					html+= '<button id="op4" onclick="enviarVoto('+data.id+',4)"  class="btn btn-info btn-block" style="width: '+data.p4+'%;" aria-valuenow="'+data.p3+'" aria-valuemin="0" aria-valuemax="100">'+data.op4+' - '+data.p4+'%</button>';
-					html+= '<div id="user_op4">'+data.users_op4+'</div>';
-					html+= '<span> Votos:'+data.total+'</span>';
+
+					html+= '<div id="demo" class="collapse"><textarea rows="1" cols="40">'+data.users_op4+'</textarea></div>';
+					html+= '<span> Votos:'+data.total+'</span><button data-toggle="collapse" data-target="#demo">ver</button>';
 					html+= '</div>';
 				}
 				
@@ -265,6 +275,8 @@
 				html += '</div>';
 				$('#participantes').append(html);
 			});
+
+		
 
 		</script>
 		

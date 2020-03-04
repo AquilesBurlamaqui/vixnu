@@ -131,6 +131,13 @@
 				$('#apelido_atualizado_nos_clientes').val(1);
 			});
 
+			setInterval(ping, 1000);
+
+			function ping() {
+				let msg = {};
+				socket.emit('ping',msg);	
+			}
+
 			function enviarVoto(a,b) {
 				let msg = {
 						apelido: $('#apelido').val(),
