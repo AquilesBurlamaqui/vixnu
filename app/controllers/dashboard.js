@@ -9,10 +9,10 @@ module.exports.iniciaDashBoard = function(application, req, res) {
 		res.render('index',{validacao:erros});
 		return;
 	}
-	application.get('io').emit(
+	/*application.get('io').emit(
 		'msgParaCliente', 
 		{apelido: dadosForm.apelido,sala:dadosForm.sala, mensagem:' acabou de entrar no chat'}
-	);
+	);*/
 
 	res.render('dashboard', {dadosForm:dadosForm});
 }
